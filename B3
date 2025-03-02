@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CTDL___GT_B3
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.InputEncoding = Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
+            MyStack ms = new MyStack();
+            string a = Console.ReadLine();
+            int length = a.Length;
+            string[] b = a.Split(' ');
+            foreach (string i in b)
+            {
+                if (double.TryParse(i, out double num))
+                    ms.push(num);
+                else
+                {
+                    if (ms.isempty())
+                    {
+                        Console.WriteLine("Stack rỗng hoặc không hợp lệ, không thể tính toán!");
+                        return;
+                    }
+                    double num1 = (double)ms.pop();
+                    if (ms.isempty())
+                    {
+                        Console.WriteLine("Stack rỗng hoặc không hợp lệ, không thể tính toán!");
+                        return;
+                    }
+                    double num2 = (double)ms.pop();
+                    double result = 0;
+                    switch (i)
+                    {
+                        case "+":
+                            result = num2 + num1;
+                            break;
+                        case "-":
+                            result = num2 - num1;
+                            break;
+                        case "*":
+                            result = num2 * num1;
+                            break;
+                        case "/":
+                            result = num2 / num1;
+                            break;
+                        case "%":
+                            result = num2 % num1;
+                            break;
+                        case "^":
+                            result = Math.Pow(num2, num1);
+                            break;
+                        default:
+                            Console.WriteLine("không hợp lệ");
+                            break;
+
+
+                    }
+                    ms.push(result);
+                    
+
+
+                    
+                }
+            }
+            if (!ms.isempty())
+                Console.WriteLine($"Kết quả: {ms.pop()}");
+            else
+                Console.WriteLine("Biểu thức không hợp lệ!");
+        }
+        public class Node
+        {
+            public Node next;
+            public object data;
+        }
+        public class MyStack
+        {
+            Node top;
+            public bool isempty()
+            {
+                return top == null;
+            }
+            public void push(object ele)
+            {
+                Node n = new Node();
+                n.data = ele;
+                n.next = top;
+                top = n;    
+            }
+            public object pop()
+            {
+                if (isempty())
+                {
+                    Console.WriteLine("Stack rỗng!");
+                    return null;
+                }
+                object data = top.data;
+                top = top.next;
+                return data;
+            }
+        }
+    }
+}
