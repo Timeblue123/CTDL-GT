@@ -3,76 +3,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections;
 
-
-namespace B4
+namespace CTDL___GT_B4_C4
 {
-    internal class Program
+    internal class C4
     {
         static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
-            ArrayList diem = new ArrayList();
-            
-            uint mon;
-            double x;
-            Console.Write("nhập số môn: ");
-            string a = Console.ReadLine();
-            while (!uint.TryParse(a, out mon))
+            int[] arr = { 12, 42, 13, 41, 125, 236, 37 };
+            Array.Sort(arr);
+            int a = BinSearch(arr, 13);
+            Console.WriteLine(a + 1);
+        }
+        static int BinSearch(int[] arr, int value)
+        {
+            int left = 0, right = arr.Length - 1;
+
+            while (left <= right)
             {
-                Console.Write("Nhập sai, xin nhập lại: ");
-                a = Console.ReadLine();
-            }
-            for (int i = 0; i < mon; i++)
-            {
-                Console.Write($"nhập điểm môn {i + 1}: ");
-                string b = Console.ReadLine();
-                while (!double.TryParse(b, out x) || x > 10)
+                int mid1 = left + (right - left) / 3;
+                int mid2 = right - (right - left) / 3;
+
+                if (arr[mid1] == value)
+                    return mid1;
+                if (arr[mid2] == value)
+                    return mid2;
+
+                if (value < arr[mid1])
+                    right = mid1 - 1;
+                else if (value > arr[mid2])
+                    left = mid2 + 1;
+                else
                 {
-                    Console.Write("Nhập sai, xin nhập lại: ");
-                    b = Console.ReadLine();
+                    left = mid1 + 1;
+                    right = mid2 - 1;
                 }
-                diem.Add(x);
-
-            }
-            int y = 1;
-            foreach (object obj in diem)
-            {
-
-                Console.WriteLine($"điểm môn {y}: " + obj.ToString());
-                y = y + 1;
             }
 
-        }
-        static double trungbinh(ArrayList list)
-        {
-            double trung_binh, tong = 0;
-            foreach (object obj in list)
-            {
-                tong = tong + Convert.ToDouble(obj);
-            }
-            trung_binh = tong / list.Count;
-            return trung_binh;
-        }
-        static double min(ArrayList list)
-        {
-            double min = 10;
-            foreach (object obj in list)
-                if (min > Convert.ToDouble(obj))
-                    min = Convert.ToDouble(obj);
-
-            return min;
-        }
-        static double max(ArrayList list)
-        {
-            double max = 0;
-            foreach (object obj in list)
-                if (max < Convert.ToDouble(obj))
-                    max = Convert.ToDouble(obj);
-            return max;
+            return -1;
         }
     }
 }
-
